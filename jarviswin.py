@@ -16,7 +16,23 @@ voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[0].id)
 engine.setProperty('volume', 1)
 
-
+#wake_command
+def listen_wake_command():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening for wake word...")
+        r.pause_threshold = 0.8
+        audio = r.listen(source)
+    try:
+        query = r.recognize_google(audio, language='en-in').lower()
+        if 'hey jarvis' in query:
+            speak("I'm listening")
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+        
 # change voice
 def voice_change(v):
     x = int(v)
